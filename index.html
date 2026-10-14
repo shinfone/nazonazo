@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8e9">
+  <title>ひらめき探偵団｜3つのなぞに挑戦！</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24324a;
+      --muted: #718098;
+      --purple: #7357d9;
+      --purple-dark: #5b40be;
+      --paper: #fffdf8;
+      --line: #e8e4f2;
+      --mint: #d9f4e9;
+      --yellow: #ffdb72;
+      --pink: #ffb9c7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      padding: 28px 20px 44px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 8% 12%, #ffe9ac 0 5%, transparent 5.2%),
+        radial-gradient(ellipse at 92% 18%, #d9f4e9 0 6%, transparent 6.2%),
+        #fff8e9;
+      font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .game {
+      width: min(100%, 760px);
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: #786b85;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--yellow);
+      color: #5f4b16;
+      font-size: 19px;
+      transform: rotate(-7deg);
+    }
+
+    .panel {
+      overflow: hidden;
+      border: 3px solid #fff;
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: 0 16px 42px #69552a1a, 0 4px 12px #69552a0d;
+    }
+
+    .hero {
+      position: relative;
+      padding: 36px 28px 28px;
+      background: linear-gradient(135deg, #eeeaff, #f9f1ff 58%, #fff1dc);
+      text-align: center;
+    }
+
+    .hero-art {
+      width: min(100%, 350px);
+      height: auto;
+      margin: 0 auto 4px;
+      display: block;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(27px, 6vw, 42px);
+      line-height: 1.35;
+      letter-spacing: .02em;
+    }
+
+    .hero h1 span { color: var(--purple); }
+
+    .hero p {
+      margin: 0 auto 22px;
+      color: #65718a;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .primary-button {
+      min-width: 220px;
+      padding: 15px 26px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--purple);
+      box-shadow: 0 5px 0 var(--purple-dark);
+      color: white;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 900;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+
+    .primary-button:hover {
+      background: var(--purple-dark);
+      box-shadow: 0 3px 0 #49319f;
+      transform: translateY(2px);
+    }
+
+    .primary-button:focus-visible,
+    .answer:focus-visible {
+      outline: 4px solid #ffc94c;
+      outline-offset: 4px;
+    }
+
+    .how-to {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 16px 22px;
+    }
+
+    .how-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #637089;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .how-item b {
+      display: grid;
+      width: 26px;
+      height: 26px;
+      place-items: center;
+      border-radius: 50%;
+      background: #f0edff;
+      color: var(--purple);
+      font-size: 13px;
+    }
+
+    .quiz { padding: 27px clamp(18px, 6vw, 42px) 34px; }
+
+    .quiz-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 13px;
+    }
+
+    .question-count {
+      color: var(--purple);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .score {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .progress {
+      height: 9px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border-radius: 99px;
+      background: #eeebf5;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #8b74ed, #56c6a0);
+      transition: width .35s ease;
+    }
+
+    .question-title {
+      margin: 0 0 19px;
+      font-size: clamp(19px, 4.5vw, 25px);
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .puzzle {
+      display: grid;
+      min-height: 180px;
+      place-items: center;
+      margin: 0 auto 22px;
+      padding: 19px;
+      border: 2px dashed #ded8f2;
+      border-radius: 20px;
+      background: #faf8ff;
+    }
+
+    .sequence {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(9px, 3vw, 22px);
+      flex-wrap: wrap;
+    }
+
+    .sequence-card {
+      display: grid;
+      width: 78px;
+      height: 78px;
+      place-items: center;
+      border: 2px solid #e8e2f6;
+      border-radius: 18px;
+      background: #fff;
+      color: var(--purple);
+      font-size: 35px;
+      font-weight: 900;
+    }
+
+    .sequence-arrow { color: #a39ab9; font-size: 23px; font-weight: 900; }
+    .sequence-card.missing { border-style: dashed; background: #f0edff; color: #8e80bd; }
+
+    .balance-svg { display: block; width: min(100%, 390px); height: auto; }
+
+    .shape-svg { display: block; width: min(100%, 320px); height: auto; }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .answer {
+      min-height: 58px;
+      padding: 12px 10px;
+      border: 2px solid #e7e3ee;
+      border-radius: 16px;
+      background: white;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 900;
+      transition: border-color .15s, background .15s, transform .15s;
+    }
+
+    .answer:hover:not(:disabled) {
+      border-color: #a696ed;
+      background: #f7f4ff;
+      transform: translateY(-2px);
+    }
+
+    .answer:disabled { cursor: default; }
+    .answer.correct { border-color: #46bd8a; background: #e5f8ef; color: #16744e; }
+    .answer.incorrect { border-color: #f09aaa; background: #fff0f2; color: #a94456; }
+
+    .feedback {
+      min-height: 28px;
+      margin: 15px 0 0;
+      color: #637089;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .feedback.good { color: #168157; }
+    .feedback.try { color: #c45c6b; }
+
+    .next-wrap { margin-top: 9px; text-align: center; }
+    .next-button { min-width: 190px; padding: 13px 22px; font-size: 15px; }
+
+    .result { padding: 42px 26px 38px; text-align: center; }
+
+    .result-icon {
+      display: grid;
+      width: 96px;
+      height: 96px;
+      place-items: center;
+      margin: 0 auto 18px;
+      border-radius: 32px;
+      background: #fff0c7;
+      font-size: 52px;
+      transform: rotate(-5deg);
+    }
+
+    .result h2 {
+      margin: 0 0 9px;
+      font-size: clamp(27px, 6vw, 38px);
+    }
+
+    .result h2.clear { color: #24966c; }
+    .result h2.game-over { color: #e06e7f; }
+
+    .result p {
+      margin: 0 auto 24px;
+      color: #65718a;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      body { padding: 18px 12px 28px; }
+      .panel { border-radius: 23px; }
+      .hero { padding: 27px 17px 24px; }
+      .hero-art { max-width: 290px; }
+      .how-to { gap: 8px; }
+      .how-item { gap: 5px; font-size: 10px; }
+      .how-item b { width: 23px; height: 23px; }
+      .quiz { padding-top: 22px; }
+      .sequence-card { width: 62px; height: 62px; border-radius: 15px; font-size: 29px; }
+      .puzzle { min-height: 155px; padding: 13px; }
+      .answers { gap: 8px; }
+      .answer { min-height: 54px; padding: 10px 5px; font-size: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <p class="brand"><span class="brand-mark" aria-hidden="true">?</span> ひらめき探偵団</p>
+
+    <section class="panel" id="start-screen" aria-labelledby="start-title">
+      <div class="hero">
+        <svg class="hero-art" viewBox="0 0 360 190" role="img" aria-label="虫めがねを持った探偵と、星やパズルの絵">
+          <path d="M40 147c20-20 42-16 56 0m170 4c16-25 38-28 58-2" fill="none" stroke="#d8c9f5" stroke-width="8" stroke-linecap="round"/>
+          <path d="m76 41 7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" fill="#ffc94c"/>
+          <path d="m291 25 5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z" fill="#8dd8bc"/>
+          <circle cx="266" cy="116" r="42" fill="#d9f4e9"/>
+          <circle cx="266" cy="116" r="23" fill="none" stroke="#7357d9" stroke-width="9"/>
+          <path d="m283 134 23 24" stroke="#7357d9" stroke-width="12" stroke-linecap="round"/>
+          <path d="M136 70c0-18 15-32 34-32s34 14 34 32v12h-68z" fill="#7357d9"/>
+          <path d="M129 77h82v11h-82z" rx="5" fill="#543db0"/>
+          <path d="M146 84c0-12 10-22 24-22s24 10 24 22v31h-48z" fill="#ffd6b0"/>
+          <path d="M149 97c5-6 12-6 17 0m9 0c5-6 12-6 17 0" fill="none" stroke="#34405a" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="159" cy="94" r="3" fill="#34405a"/><circle cx="185" cy="94" r="3" fill="#34405a"/>
+          <path d="M165 108q7 7 14 0" fill="none" stroke="#d27869" stroke-width="3" stroke-linecap="round"/>
+          <path d="M137 123c6-12 18-18 33-18s28 6 34 18v37h-67z" fill="#56bd9a"/>
+          <path d="M131 129q-20 2-25 19l21 6m83-25q17 5 22 19l-20 5" fill="none" stroke="#ffd6b0" stroke-width="12" stroke-linecap="round"/>
+          <path d="M159 156v18m28-18v18" stroke="#475673" stroke-width="10" stroke-linecap="round"/>
+          <path d="M148 175h-13m62 0h-13" stroke="#ff9c63" stroke-width="10" stroke-linecap="round"/>
+          <path d="M106 144c3-15 14-24 26-24 13 0 22 9 25 22-9 7-20 11-32 9z" fill="#f4bd70"/>
+          <circle cx="119" cy="138" r="2.5" fill="#34405a"/><circle cx="139" cy="138" r="2.5" fill="#34405a"/>
+          <path d="M122 147q7 5 13 0" fill="none" stroke="#d27869" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="m230 61 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9db1"/>
+        </svg>
+        <h1 id="start-title">3つのなぞに<br><span>ちょうせん！</span></h1>
+        <p>絵をよーく見て、ひらめきで答えよう。<br>きみは全問正解できるかな？</p>
+        <button class="primary-button" id="start-button" type="button">ゲームスタート！ <span aria-hidden="true">▶</span></button>
+      </div>
+      <div class="how-to" aria-label="ゲームのあそびかた">
+        <span class="how-item"><b>1</b> なぞは全部で3問</span>
+        <span class="how-item"><b>2</b> えらんで答える</span>
+        <span class="how-item"><b>3</b> 全問正解でクリア</span>
+      </div>
+    </section>
+
+    <section class="panel quiz hidden" id="quiz-screen" aria-live="polite" aria-labelledby="question-title">
+      <div class="quiz-top">
+        <span class="question-count" id="question-count">なぞ 1 / 3</span>
+        <span class="score" id="score">正解 0 問</span>
+      </div>
+      <div class="progress" role="progressbar" aria-label="問題の進み具合" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <h2 class="question-title" id="question-title"></h2>
+      <div class="puzzle" id="puzzle" aria-label="なぞの絵"></div>
+      <div class="answers" id="answers"></div>
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <div class="next-wrap hidden" id="next-wrap">
+        <button class="primary-button next-button" id="next-button" type="button">つぎのなぞへ！ →</button>
+      </div>
+    </section>
+
+    <section class="panel result hidden" id="result-screen" aria-live="polite" aria-labelledby="result-title">
+      <div class="result-icon" id="result-icon" aria-hidden="true"></div>
+      <h2 id="result-title"></h2>
+      <p id="result-message"></p>
+      <button class="primary-button" id="restart-button" type="button">もう一度あそぶ ↻</button>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: "ならんだ丸の数に注目！「？」に入るのはどれ？",
+        illustration: `
+          <div class="sequence" aria-label="丸が1こ、2こ、3こと増えて、最後は？">
+            <div class="sequence-card" aria-hidden="true">●</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">●●</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">●●●</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card missing" aria-hidden="true">？</div>
+          </div>`,
+        choices: ["●●●", "●●●●", "●●●●●"],
+        answer: 1,
+        correct: "丸が1こずつ増えているね。だから次は4こ！"
+      },
+      {
+        title: "てんびんがつり合っているよ。★ひとつは三角いくつ分？",
+        illustration: `
+          <svg class="balance-svg" viewBox="0 0 400 190" role="img" aria-label="左のお皿に星と三角、右のお皿に三角が3つあるてんびん">
+            <path d="M200 49v98" stroke="#7c6f9c" stroke-width="9" stroke-linecap="round"/>
+            <path d="M128 148h144l-19 20h-106z" fill="#c8bce9"/>
+            <path d="M200 49 88 71m112-22 112 22" stroke="#7c6f9c" stroke-width="7" stroke-linecap="round"/>
+            <path d="M88 71v48m224-48v48" stroke="#a69abd" stroke-width="4"/>
+            <path d="M45 119h86l-12 16H57z" fill="#ffcf62"/><path d="M269 119h86l-12 16h-62z" fill="#ffcf62"/>
+            <path d="m78 75 6 13 14 2-10 10 2 14-12-7-12 7 2-14-10-10 14-2z" fill="#ff9d62" stroke="#dc804c" stroke-width="2"/>
+            <path d="m117 93 12 21h-24z" fill="#73c9a4" stroke="#4da680" stroke-width="2"/>
+            <path d="m285 93 12 21h-24z" fill="#73c9a4" stroke="#4da680" stroke-width="2"/>
+            <path d="m312 93 12 21h-24z" fill="#73c9a4" stroke="#4da680" stroke-width="2"/>
+            <path d="m339 93 12 21h-24z" fill="#73c9a4" stroke="#4da680" stroke-width="2"/>
+            <circle cx="200" cy="49" r="10" fill="#ffcf62" stroke="#7c6f9c" stroke-width="4"/>
+          </svg>`,
+        choices: ["1こ", "2こ", "3こ"],
+        answer: 1,
+        correct: "星と三角1こで、三角3こ分。星は三角2こ分だね！"
+      },
+      {
+        title: "四角い紙の角をひとつ切り落としたよ。角はいくつ？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 300 210" role="img" aria-label="四角形の右上の角を斜めに切り落とした形">
+            <path d="M65 43h119l54 54v72H65z" fill="#c9baff" stroke="#7357d9" stroke-width="6" stroke-linejoin="round"/>
+            <path d="m184 43 54 54h-54z" fill="#fffdf8" stroke="#7357d9" stroke-width="4" stroke-dasharray="7 6" stroke-linejoin="round"/>
+            <circle cx="65" cy="43" r="7" fill="#ff9d62"/><circle cx="184" cy="43" r="7" fill="#ff9d62"/>
+            <circle cx="238" cy="97" r="7" fill="#ff9d62"/><circle cx="238" cy="169" r="7" fill="#ff9d62"/>
+            <circle cx="65" cy="169" r="7" fill="#ff9d62"/>
+            <path d="M166 28 197 11" stroke="#f2a253" stroke-width="4" stroke-linecap="round"/>
+            <path d="m198 10-3 12-8-8z" fill="#f2a253"/>
+            <text x="150" y="199" text-anchor="middle" fill="#766b91" font-size="14" font-weight="700">オレンジの点をかぞえてみよう！</text>
+          </svg>`,
+        choices: ["4つ", "5つ", "6つ"],
+        answer: 1,
+        correct: "切ったところに新しい角が2つできるから、四角の4つから5つに！"
+      }
+    ];
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const questionTitle = document.getElementById("question-title");
+    const questionCount = document.getElementById("question-count");
+    const scoreLabel = document.getElementById("score");
+    const puzzle = document.getElementById("puzzle");
+    const answers = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const nextWrap = document.getElementById("next-wrap");
+    const progress = document.querySelector(".progress");
+    const progressFill = document.getElementById("progress-fill");
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion() {
+      const question = questions[currentQuestion];
+      questionCount.textContent = `なぞ ${currentQuestion + 1} / ${questions.length}`;
+      scoreLabel.textContent = `正解 ${score} 問`;
+      questionTitle.textContent = question.title;
+      puzzle.innerHTML = question.illustration;
+      answers.replaceChildren();
+      feedback.textContent = "";
+      feedback.className = "feedback";
+      nextWrap.classList.add("hidden");
+      progressFill.style.width = `${(currentQuestion / questions.length) * 100}%`;
+      progress.setAttribute("aria-valuenow", String(currentQuestion));
+
+      question.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer";
+        button.textContent = choice;
+        button.addEventListener("click", () => chooseAnswer(index));
+        answers.append(button);
+      });
+    }
+
+    function chooseAnswer(selected) {
+      const question = questions[currentQuestion];
+      const buttons = answers.querySelectorAll("button");
+      buttons.forEach((button, index) => {
+        button.disabled = true;
+        if (index === question.answer) button.classList.add("correct");
+      });
+
+      if (selected === question.answer) {
+        score += 1;
+        feedback.textContent = `せいかい！ ${question.correct}`;
+        feedback.classList.add("good");
+      } else {
+        buttons[selected].classList.add("incorrect");
+        feedback.textContent = "おしい！ 正解の絵も見て、ひらめきをたしかめよう。";
+        feedback.classList.add("try");
+      }
+
+      scoreLabel.textContent = `正解 ${score} 問`;
+      nextWrap.classList.remove("hidden");
+      document.getElementById("next-button").textContent =
+        currentQuestion === questions.length - 1 ? "けっかを見る！ →" : "つぎのなぞへ！ →";
+    }
+
+    function showResult() {
+      quizScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+      const clear = score === questions.length;
+      document.getElementById("result-icon").textContent = clear ? "🏆" : score === 0 ? "🕵️" : "💡";
+      const title = document.getElementById("result-title");
+      title.textContent = clear ? "ゲームクリア！" : "ゲームオーバー";
+      title.className = clear ? "clear" : "game-over";
+      document.getElementById("result-message").innerHTML = clear
+        ? `すごい！ 3問ぜんぶ正解だよ！<br>きみはひらめき名探偵！`
+        : score === 0
+          ? `正解は ${score} 問。<br>こんどは絵をよーく見て、もう一度ちょうせん！`
+          : `正解は ${score} 問。おしい！<br>あと少しで全問正解だったよ。もう一度ちょうせん！`;
+    }
+
+    document.getElementById("start-button").addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      startScreen.classList.add("hidden");
+      resultScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+      showQuestion();
+    });
+
+    document.getElementById("next-button").addEventListener("click", () => {
+      currentQuestion += 1;
+      if (currentQuestion === questions.length) {
+        showResult();
+      } else {
+        showQuestion();
+      }
+    });
+
+    document.getElementById("restart-button").addEventListener("click", () => {
+      resultScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>
