@@ -369,7 +369,7 @@
           <path d="m230 61 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9db1"/>
         </svg>
         <h1 id="start-title">3つのなぞに<br><span>ちょうせん！</span></h1>
-        <p>絵をよーく見て、ひらめきで答えよう。<br>きみは全問正解できるかな？</p>
+        <p>10問の中から毎回ちがう3問を出題！<br>絵をよーく見て、ひらめきで答えよう。</p>
         <button class="primary-button" id="start-button" type="button">ゲームスタート！ <span aria-hidden="true">▶</span></button>
       </div>
       <div class="how-to" aria-label="ゲームのあそびかた">
@@ -455,6 +455,110 @@
         choices: ["4つ", "5つ", "6つ"],
         answer: 1,
         correct: "切ったところに新しい角が2つできるから、四角の4つから5つに！"
+      },
+      {
+        title: "形のならび方を見てね。「？」に入るのはどれ？",
+        illustration: `
+          <div class="sequence" aria-label="丸、三角、丸、三角、次は？">
+            <div class="sequence-card" aria-hidden="true">●</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">▲</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">●</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">▲</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card missing" aria-hidden="true">？</div>
+          </div>`,
+        choices: ["●", "▲", "■"],
+        answer: 0,
+        correct: "丸と三角が交互にならんでいるよ。次は丸だね！"
+      },
+      {
+        title: "矢印が右に90度ずつ回っているよ。「？」はどっち向き？",
+        illustration: `
+          <div class="sequence" aria-label="上向き、右向き、下向き、次は？">
+            <div class="sequence-card" aria-hidden="true">↑</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">→</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">↓</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card missing" aria-hidden="true">？</div>
+          </div>`,
+        choices: ["↑", "←", "→"],
+        answer: 1,
+        correct: "上、右、下と右回りに回ったから、次は左向き！"
+      },
+      {
+        title: "上の形が黒くなると、下の形はどうなるかな？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 360 190" role="img" aria-label="白い丸が黒い丸に変化し、白い四角はどうなるか考える図">
+            <circle cx="63" cy="55" r="29" fill="white" stroke="#7357d9" stroke-width="5"/>
+            <path d="M111 55h54m-12-12 12 12-12 12" fill="none" stroke="#a69abd" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="214" cy="55" r="29" fill="#7357d9"/>
+            <rect x="34" y="112" width="58" height="58" rx="4" fill="white" stroke="#7357d9" stroke-width="5"/>
+            <path d="M111 141h54m-12-12 12 12-12 12" fill="none" stroke="#a69abd" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="185" y="112" width="58" height="58" rx="4" fill="#f0edff" stroke="#b7abd9" stroke-width="4" stroke-dasharray="7 6"/>
+            <text x="281" y="64" fill="#766b91" font-size="16" font-weight="700">同じ変化！</text>
+            <text x="281" y="149" fill="#766b91" font-size="16" font-weight="700">？</text>
+          </svg>`,
+        choices: ["白い四角 □", "黒い四角 ■", "黒い丸 ●"],
+        answer: 1,
+        correct: "白い形が黒くなっているね。四角も黒くすれば正解！"
+      },
+      {
+        title: "大きな三角の中に、小さな三角はいくつあるかな？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 300 220" role="img" aria-label="大きな三角形を逆さの三角形で区切ってできた小さな三角形4つ">
+            <path d="M150 26 38 193h224z" fill="#d9f4e9" stroke="#4da680" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M94 110h112M94 110l56 83m56-83-56 83" fill="none" stroke="#4da680" stroke-width="4" stroke-linejoin="round"/>
+            <circle cx="150" cy="26" r="6" fill="#ff9d62"/>
+            <text x="150" y="215" text-anchor="middle" fill="#766b91" font-size="14" font-weight="700">小さい三角だけをかぞえよう</text>
+          </svg>`,
+        choices: ["3つ", "4つ", "5つ"],
+        answer: 1,
+        correct: "上に1つ、下に3つ。小さい三角は全部で4つだよ！"
+      },
+      {
+        title: "ならんだ数は、前の数にいくつずつ足しているかな？",
+        illustration: `
+          <div class="sequence" aria-label="2、4、6、次は？">
+            <div class="sequence-card" aria-hidden="true">2</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">4</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">6</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card missing" aria-hidden="true">？</div>
+          </div>`,
+        choices: ["7", "8", "9"],
+        answer: 1,
+        correct: "2ずつ大きくなっているから、6の次は8！"
+      },
+      {
+        title: "ならんだブロックは、ひとつずつ増えているよ。次は？",
+        illustration: `
+          <div class="sequence" aria-label="ブロックが2こ、3こ、4こと増えて、最後は？">
+            <div class="sequence-card" aria-hidden="true">🟦🟦</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">🟦🟦<br>🟦</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card" aria-hidden="true">🟦🟦<br>🟦🟦</div><span class="sequence-arrow" aria-hidden="true">→</span>
+            <div class="sequence-card missing" aria-hidden="true">？</div>
+          </div>`,
+        choices: ["ブロック3こ", "ブロック4こ", "ブロック5こ"],
+        answer: 2,
+        correct: "2こ、3こ、4こと増えたから、次は5こだね！"
+      },
+      {
+        title: "まんなかの線で折ると、左右がぴったり重なるのはどれ？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 360 180" role="img" aria-label="左右対称かどうかを見比べる3つの形">
+            <path d="M51 35h46v46h-46z" fill="#c9baff" stroke="#7357d9" stroke-width="4"/>
+            <path d="M74 29v58" stroke="#a69abd" stroke-width="2" stroke-dasharray="4 4"/>
+            <path d="M157 35h46v46h-46z" fill="#c9baff" stroke="#7357d9" stroke-width="4"/>
+            <path d="M180 29v58" stroke="#a69abd" stroke-width="2" stroke-dasharray="4 4"/>
+            <path d="M157 35h23v46h-23z" fill="#ff9d62"/>
+            <path d="M263 35h46v46h-46z" fill="#c9baff" stroke="#7357d9" stroke-width="4"/>
+            <path d="M286 29v58" stroke="#a69abd" stroke-width="2" stroke-dasharray="4 4"/>
+            <path d="m263 35 46 46" stroke="#ff9d62" stroke-width="5"/>
+            <text x="74" y="117" text-anchor="middle" fill="#766b91" font-size="15" font-weight="700">A</text>
+            <text x="180" y="117" text-anchor="middle" fill="#766b91" font-size="15" font-weight="700">B</text>
+            <text x="286" y="117" text-anchor="middle" fill="#766b91" font-size="15" font-weight="700">C</text>
+            <text x="180" y="153" text-anchor="middle" fill="#766b91" font-size="14" font-weight="700">点線で折ってみよう！</text>
+          </svg>`,
+        choices: ["A", "B", "C"],
+        answer: 0,
+        correct: "Aはまんなかで折ると左右が同じ。BとCは片方にだけ色があるね！"
       }
     ];
 
@@ -470,12 +574,23 @@
     const nextWrap = document.getElementById("next-wrap");
     const progress = document.querySelector(".progress");
     const progressFill = document.getElementById("progress-fill");
+    const roundSize = 3;
     let currentQuestion = 0;
     let score = 0;
+    let roundQuestions = [];
+
+    function chooseRoundQuestions() {
+      const shuffled = [...questions];
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled.slice(0, roundSize);
+    }
 
     function showQuestion() {
-      const question = questions[currentQuestion];
-      questionCount.textContent = `なぞ ${currentQuestion + 1} / ${questions.length}`;
+      const question = roundQuestions[currentQuestion];
+      questionCount.textContent = `なぞ ${currentQuestion + 1} / ${roundSize}`;
       scoreLabel.textContent = `正解 ${score} 問`;
       questionTitle.textContent = question.title;
       puzzle.innerHTML = question.illustration;
@@ -483,7 +598,7 @@
       feedback.textContent = "";
       feedback.className = "feedback";
       nextWrap.classList.add("hidden");
-      progressFill.style.width = `${(currentQuestion / questions.length) * 100}%`;
+      progressFill.style.width = `${(currentQuestion / roundSize) * 100}%`;
       progress.setAttribute("aria-valuenow", String(currentQuestion));
 
       question.choices.forEach((choice, index) => {
@@ -497,7 +612,7 @@
     }
 
     function chooseAnswer(selected) {
-      const question = questions[currentQuestion];
+      const question = roundQuestions[currentQuestion];
       const buttons = answers.querySelectorAll("button");
       buttons.forEach((button, index) => {
         button.disabled = true;
@@ -515,15 +630,17 @@
       }
 
       scoreLabel.textContent = `正解 ${score} 問`;
+      progressFill.style.width = `${((currentQuestion + 1) / roundSize) * 100}%`;
+      progress.setAttribute("aria-valuenow", String(currentQuestion + 1));
       nextWrap.classList.remove("hidden");
       document.getElementById("next-button").textContent =
-        currentQuestion === questions.length - 1 ? "けっかを見る！ →" : "つぎのなぞへ！ →";
+        currentQuestion === roundSize - 1 ? "けっかを見る！ →" : "つぎのなぞへ！ →";
     }
 
     function showResult() {
       quizScreen.classList.add("hidden");
       resultScreen.classList.remove("hidden");
-      const clear = score === questions.length;
+      const clear = score === roundSize;
       document.getElementById("result-icon").textContent = clear ? "🏆" : score === 0 ? "🕵️" : "💡";
       const title = document.getElementById("result-title");
       title.textContent = clear ? "ゲームクリア！" : "ゲームオーバー";
@@ -538,6 +655,7 @@
     document.getElementById("start-button").addEventListener("click", () => {
       currentQuestion = 0;
       score = 0;
+      roundQuestions = chooseRoundQuestions();
       startScreen.classList.add("hidden");
       resultScreen.classList.add("hidden");
       quizScreen.classList.remove("hidden");
@@ -546,7 +664,7 @@
 
     document.getElementById("next-button").addEventListener("click", () => {
       currentQuestion += 1;
-      if (currentQuestion === questions.length) {
+      if (currentQuestion === roundSize) {
         showResult();
       } else {
         showQuestion();
