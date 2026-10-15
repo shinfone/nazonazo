@@ -181,6 +181,16 @@
       background: #fffaf0;
     }
 
+    .difficulty-button.extreme {
+      border-color: #f0c5cf;
+      box-shadow: 0 4px 0 #f5dfe4;
+    }
+
+    .difficulty-button.extreme:hover {
+      border-color: #e798aa;
+      background: #fff6f8;
+    }
+
     .how-to {
       display: flex;
       justify-content: center;
@@ -418,15 +428,19 @@
           <path d="m230 61 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9db1"/>
         </svg>
         <h1 id="start-title">3つのなぞに<br><span>ちょうせん！</span></h1>
-        <p>難易度を選んで、ひらめきにちょうせん！<br>選んだコースの10問から、毎回3問を出題するよ。</p>
+          <p>難易度を選んで、ひらめきにちょうせん！<br>各コース10問から、毎回ちがう3問を出題するよ。</p>
           <div class="difficulty-picker" aria-label="難易度を選ぶ">
             <button class="difficulty-button" data-difficulty="easy" type="button">
               🌱 やさしい
-              <small>絵を見てひらめく10問</small>
+              <small>ひらめきの基本 10問</small>
             </button>
             <button class="difficulty-button hard" data-difficulty="hard" type="button">
               🔥 むずかしい
-              <small>じっくり考える新しい10問</small>
+              <small>じっくり考える 10問</small>
+            </button>
+            <button class="difficulty-button extreme" data-difficulty="extreme" type="button">
+              💎 激ムズ
+              <small>手がかりを組み合わせる 10問</small>
             </button>
           </div>
       </div>
@@ -795,6 +809,164 @@
       }
     ];
 
+    const extremeQuestions = [
+      {
+        title: "数の増え方が「1、2、1、2…」とくり返しているよ。次は？",
+        illustration: `
+          <div class="sequence" aria-label="3、4、6、7、9、次は？">
+            <div class="sequence-card">3</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">4</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">6</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">7</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">9</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card missing">？</div>
+          </div>`,
+        choices: ["10", "11", "12"],
+        answer: 0,
+        correct: "3から1、2、1、2と足しているから、9の次は10！"
+      },
+      {
+        title: "2つの数の列が交互にかくれているよ。「？」は？",
+        illustration: `
+          <div class="sequence" aria-label="1、10、2、9、3、8、次は？">
+            <div class="sequence-card">1</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">10</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">2</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">9</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">3</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card">8</div><span class="sequence-arrow">→</span>
+            <div class="sequence-card missing">？</div>
+          </div>`,
+        choices: ["4", "7", "11"],
+        answer: 0,
+        correct: "1、2、3と増える列と、10、9、8と減る列が交互。次は4だよ！"
+      },
+      {
+        title: "てんびんのヒントから、★と▲の重さを考えよう。▲はいくつ分？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 360 190" role="img" aria-label="星2つは丸8つ分、星と三角は丸7つ分と示すてんびんのヒント">
+            <rect x="12" y="12" width="336" height="166" rx="18" fill="#fff" stroke="#e8e2f6" stroke-width="3"/>
+            <text x="35" y="52" fill="#766b91" font-size="16" font-weight="700">★ ＋ ★</text>
+            <path d="M126 47h35m-10-9 10 9-10 9" fill="none" stroke="#a69abd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="175" y="52" fill="#7357d9" font-size="15" font-weight="700">● ● ● ● ● ● ● ●</text>
+            <path d="M28 72h304" stroke="#e8e2f6" stroke-width="2"/>
+            <text x="35" y="112" fill="#766b91" font-size="16" font-weight="700">★ ＋ ▲</text>
+            <path d="M126 107h35m-10-9 10 9-10 9" fill="none" stroke="#a69abd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="175" y="112" fill="#7357d9" font-size="15" font-weight="700">● ● ● ● ● ● ●</text>
+            <text x="180" y="151" text-anchor="middle" fill="#766b91" font-size="14" font-weight="700">★2つで丸8つ分。▲は丸いくつ分？</text>
+          </svg>`,
+        choices: ["2こ", "3こ", "4こ"],
+        answer: 1,
+        correct: "★2つで丸8つだから★1つは4つ分。★＋▲が7つ分なら、▲は3つ分！"
+      },
+      {
+        title: "小さな正方形も、大きな正方形も数えよう。いくつあるかな？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 240 220" role="img" aria-label="大きな四角を縦横に2本ずつの線で区切った3行3列のマス目">
+            <rect x="30" y="20" width="180" height="180" fill="#e5ddff" stroke="#7357d9" stroke-width="5"/>
+            <path d="M90 20v180M150 20v180M30 80h180M30 140h180" stroke="#7357d9" stroke-width="4"/>
+            <text x="120" y="216" text-anchor="middle" fill="#766b91" font-size="14" font-weight="700">大きさのちがう四角もあるよ</text>
+          </svg>`,
+        choices: ["12こ", "14こ", "16こ"],
+        answer: 1,
+        correct: "1マスの四角が9こ、2×2マスが4こ、大きな四角が1こ。合わせて14こ！"
+      },
+      {
+        title: "三角形の中に、小さい三角形はいくつあるかな？大きさのちがうものも数えてね。",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 300 220" role="img" aria-label="一辺を3つに分けた三角形の格子。大小の三角形を数える問題">
+            <path d="M150 20 60 170h180z M120 70h60 M90 120h120 M150 20 240 170 M120 70l60 100 M90 120l60 50 M180 70l-60 100 M210 120l-60 50" fill="none" stroke="#4da680" stroke-width="4" stroke-linejoin="round"/>
+            <text x="150" y="207" text-anchor="middle" fill="#766b91" font-size="13" font-weight="700">小さいものだけじゃないよ！</text>
+          </svg>`,
+        choices: ["9こ", "12こ", "13こ"],
+        answer: 2,
+        correct: "小さい三角が9こ、中くらいが3こ、いちばん大きいのが1こで、全部13こ！"
+      },
+      {
+        title: "4人が一列にならぶよ。ヒントから、前から3番目はだれ？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 360 190" role="img" aria-label="4人の順番のヒント。AはBより前、CはBより後ろ、DはAより前">
+            <rect x="15" y="12" width="330" height="166" rx="18" fill="#fff" stroke="#e8e2f6" stroke-width="3"/>
+            <text x="180" y="43" text-anchor="middle" fill="#7357d9" font-size="17" font-weight="900">ならぶ順番のヒント</text>
+            <text x="42" y="76" fill="#34405a" font-size="15" font-weight="700">A は B より前</text>
+            <text x="42" y="103" fill="#34405a" font-size="15" font-weight="700">C は B より後ろ</text>
+            <text x="42" y="130" fill="#34405a" font-size="15" font-weight="700">D は A より前</text>
+            <path d="M100 153h45m-10-8 10 8-10 8M199 153h45m-10-8 10 8-10 8" fill="none" stroke="#a69abd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="54" y="160" fill="#ff9d62" font-size="17" font-weight="900">前</text>
+            <text x="260" y="160" fill="#ff9d62" font-size="17" font-weight="900">後ろ</text>
+          </svg>`,
+        choices: ["A", "B", "C"],
+        answer: 1,
+        correct: "D、A、B、Cの順になるね。前から3番目はB！"
+      },
+      {
+        title: "左上から右下まで、右か下だけに進むよ。道すじは何通り？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 300 280" role="img" aria-label="4行4列の交点の格子で、左上から右下へ右か下だけに進む道すじを数える問題">
+            <path d="M45 40h180M45 95h180M45 150h180M45 205h180M45 40v165M105 40v165M165 40v165M225 40v165" stroke="#c9baff" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="45" cy="40" r="10" fill="#ff9d62"/>
+            <circle cx="225" cy="205" r="10" fill="#56bd9a"/>
+            <text x="45" y="25" text-anchor="middle" fill="#766b91" font-size="12" font-weight="700">スタート</text>
+            <text x="225" y="229" text-anchor="middle" fill="#766b91" font-size="12" font-weight="700">ゴール</text>
+            <text x="135" y="264" text-anchor="middle" fill="#766b91" font-size="13" font-weight="700">右に3回、下に3回進む</text>
+          </svg>`,
+        choices: ["15通り", "20通り", "24通り"],
+        answer: 1,
+        correct: "右3回と下3回を並べる順番を考えると、道すじは20通り！"
+      },
+      {
+        title: "たて・横の数のならび方を見つけて、「？」に入る数を考えよう。",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 300 230" role="img" aria-label="2、4、8、3、6、12、4、8、空欄の3行3列の数表">
+            <rect x="45" y="20" width="210" height="180" rx="10" fill="#fff" stroke="#bfb4dd" stroke-width="4"/>
+            <path d="M115 20v180m70-180v180M45 80h210m-210 60h210" stroke="#d9d2eb" stroke-width="3"/>
+            <text x="80" y="62" text-anchor="middle" fill="#7357d9" font-size="25" font-weight="900">2</text>
+            <text x="150" y="62" text-anchor="middle" fill="#7357d9" font-size="25" font-weight="900">4</text>
+            <text x="220" y="62" text-anchor="middle" fill="#7357d9" font-size="25" font-weight="900">8</text>
+            <text x="80" y="122" text-anchor="middle" fill="#4da680" font-size="25" font-weight="900">3</text>
+            <text x="150" y="122" text-anchor="middle" fill="#4da680" font-size="25" font-weight="900">6</text>
+            <text x="220" y="122" text-anchor="middle" fill="#4da680" font-size="25" font-weight="900">12</text>
+            <text x="80" y="182" text-anchor="middle" fill="#f2a253" font-size="25" font-weight="900">4</text>
+            <text x="150" y="182" text-anchor="middle" fill="#f2a253" font-size="25" font-weight="900">8</text>
+            <text x="220" y="182" text-anchor="middle" fill="#f2a253" font-size="25" font-weight="900">？</text>
+          </svg>`,
+        choices: ["12", "14", "16"],
+        answer: 2,
+        correct: "どの列も右へ進むたびに2倍。8の次は16だよ！"
+      },
+      {
+        title: "このマス目に正方形はいくつあるかな？大きな正方形も見つけてね。",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 240 240" role="img" aria-label="4行4列に区切られた大きな正方形のマス目">
+            <rect x="30" y="15" width="180" height="180" fill="#e5ddff" stroke="#7357d9" stroke-width="4"/>
+            <path d="M75 15v180M120 15v180M165 15v180M30 60h180M30 105h180M30 150h180" stroke="#7357d9" stroke-width="3"/>
+            <text x="120" y="224" text-anchor="middle" fill="#766b91" font-size="13" font-weight="700">1×1、2×2…と数えてみよう</text>
+          </svg>`,
+        choices: ["26こ", "30こ", "32こ"],
+        answer: 1,
+        correct: "1×1が16こ、2×2が9こ、3×3が4こ、4×4が1こ。合わせて30こ！"
+      },
+      {
+        title: "3つの箱のことばを考えよう。正しいことばが2つだけなら、宝物はどの箱？",
+        illustration: `
+          <svg class="shape-svg" viewBox="0 0 360 210" role="img" aria-label="赤い箱は宝物は赤か青にある、青い箱は宝物は赤にはない、緑の箱は宝物は緑にはない、と書かれている">
+            <rect x="10" y="20" width="108" height="170" rx="14" fill="#fff0f2" stroke="#f09aaa" stroke-width="3"/>
+            <rect x="126" y="20" width="108" height="170" rx="14" fill="#eef0ff" stroke="#a696ed" stroke-width="3"/>
+            <rect x="242" y="20" width="108" height="170" rx="14" fill="#e7f8ef" stroke="#77c9a2" stroke-width="3"/>
+            <text x="64" y="54" text-anchor="middle" fill="#b84c61" font-size="17" font-weight="900">赤い箱</text>
+            <text x="180" y="54" text-anchor="middle" fill="#5b40be" font-size="17" font-weight="900">青い箱</text>
+            <text x="296" y="54" text-anchor="middle" fill="#24865f" font-size="17" font-weight="900">緑の箱</text>
+            <text x="64" y="91" text-anchor="middle" fill="#34405a" font-size="13" font-weight="700"><tspan x="64">宝物は</tspan><tspan x="64" dy="19">赤か青に</tspan><tspan x="64" dy="19">ある</tspan></text>
+            <text x="180" y="91" text-anchor="middle" fill="#34405a" font-size="13" font-weight="700"><tspan x="180">宝物は</tspan><tspan x="180" dy="19">赤い箱には</tspan><tspan x="180" dy="19">ない</tspan></text>
+            <text x="296" y="91" text-anchor="middle" fill="#34405a" font-size="13" font-weight="700"><tspan x="296">宝物は</tspan><tspan x="296" dy="19">緑の箱には</tspan><tspan x="296" dy="19">ない</tspan></text>
+            <text x="180" y="177" text-anchor="middle" fill="#766b91" font-size="12" font-weight="700">3つのことばのうち、正しいのは2つだけ</text>
+          </svg>`,
+        choices: ["赤い箱", "青い箱", "緑の箱"],
+        answer: 0,
+        correct: "赤い箱なら「赤か青にある」と「赤にはない」が正しく、「緑にはない」はまちがい。正しいのは2つだけ！"
+      }
+    ];
+
     const startScreen = document.getElementById("start-screen");
     const quizScreen = document.getElementById("quiz-screen");
     const resultScreen = document.getElementById("result-screen");
@@ -813,9 +985,19 @@
     let score = 0;
     let roundQuestions = [];
     let selectedDifficulty = "easy";
+    const questionPools = {
+      easy: easyQuestions,
+      hard: hardQuestions,
+      extreme: extremeQuestions
+    };
+    const difficultyNames = {
+      easy: "やさしい",
+      hard: "むずかしい",
+      extreme: "激ムズ"
+    };
 
     function chooseRoundQuestions() {
-      const pool = selectedDifficulty === "hard" ? hardQuestions : easyQuestions;
+      const pool = questionPools[selectedDifficulty];
       const shuffled = [...pool];
       for (let i = shuffled.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -827,7 +1009,7 @@
     function showQuestion() {
       const question = roundQuestions[currentQuestion];
       questionCount.textContent = `なぞ ${currentQuestion + 1} / ${roundSize}`;
-      difficultyLabel.textContent = selectedDifficulty === "hard" ? "むずかしい" : "やさしい";
+      difficultyLabel.textContent = difficultyNames[selectedDifficulty];
       scoreLabel.textContent = `正解 ${score} 問`;
       questionTitle.textContent = question.title;
       puzzle.innerHTML = question.illustration;
