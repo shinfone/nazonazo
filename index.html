@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fff8e9">
-  <title>ひらめき探偵団｜3つのなぞに挑戦！</title>
+  <title>魔法の監獄からの脱出｜謎解きゲーム</title>
   <style>
     :root {
       color-scheme: light;
@@ -85,6 +85,51 @@
       height: auto;
       margin: 0 auto 4px;
       display: block;
+    }
+
+    .story-button {
+      display: block;
+      margin: 0 auto 24px;
+      background: #d45d96;
+      box-shadow: 0 5px 0 #a43d70;
+    }
+
+    .story-button:hover { background: #bd4b83; box-shadow: 0 3px 0 #943464; }
+
+    .mode-label {
+      margin: 0 0 12px;
+      color: #786b85;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .story-intro { padding: 34px clamp(20px, 7vw, 54px); text-align: center; }
+
+    .story-intro h2 {
+      margin: 0 0 18px;
+      color: #bd4b83;
+      font-size: clamp(25px, 6vw, 34px);
+    }
+
+    .story-intro p {
+      color: #56637c;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 2;
+      text-align: left;
+    }
+
+    .story-intro .primary-button { margin-top: 6px; }
+
+    .text-button {
+      display: block;
+      margin: 18px auto 0;
+      padding: 8px 14px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
     }
 
     h1, h2, p { margin-top: 0; }
@@ -218,7 +263,32 @@
       font-size: 13px;
     }
 
-    .quiz { padding: 27px clamp(18px, 6vw, 42px) 34px; }
+    .quiz { position: relative; padding: 27px clamp(18px, 6vw, 42px) 34px; }
+
+    .quiz-story-art {
+      display: none;
+      position: absolute;
+      right: -10px;
+      bottom: 4px;
+      z-index: 0;
+      width: 190px;
+      height: auto;
+      opacity: .13;
+      pointer-events: none;
+    }
+
+    .quiz.story-mode .quiz-story-art { display: block; }
+    .quiz-content { position: relative; z-index: 1; }
+    .story-stage-label {
+      display: none;
+      margin: -10px 0 12px;
+      color: #bd4b83;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .quiz.story-mode .story-stage-label { display: block; }
 
     .quiz-top {
       display: flex;
@@ -384,6 +454,7 @@
       .panel { border-radius: 23px; }
       .hero { padding: 27px 17px 24px; }
       .hero-art { max-width: 290px; }
+      .quiz-story-art { right: -18px; width: 130px; opacity: .1; }
       .how-to { gap: 8px; }
       .how-item { gap: 5px; font-size: 10px; }
       .how-item b { width: 23px; height: 23px; }
@@ -404,34 +475,33 @@
 </head>
 <body>
   <main class="game">
-    <p class="brand"><span class="brand-mark" aria-hidden="true">?</span> ひらめき探偵団</p>
+    <p class="brand"><span class="brand-mark" aria-hidden="true">✦</span> ひらめき謎解きアドベンチャー</p>
 
     <section class="panel" id="start-screen" aria-labelledby="start-title">
       <div class="hero">
-        <svg class="hero-art" viewBox="0 0 360 190" role="img" aria-label="虫めがねを持った探偵と、星やパズルの絵">
-          <path d="M40 147c20-20 42-16 56 0m170 4c16-25 38-28 58-2" fill="none" stroke="#d8c9f5" stroke-width="8" stroke-linecap="round"/>
-          <path d="m76 41 7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" fill="#ffc94c"/>
-          <path d="m291 25 5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z" fill="#8dd8bc"/>
-          <circle cx="266" cy="116" r="42" fill="#d9f4e9"/>
-          <circle cx="266" cy="116" r="23" fill="none" stroke="#7357d9" stroke-width="9"/>
-          <path d="m283 134 23 24" stroke="#7357d9" stroke-width="12" stroke-linecap="round"/>
-          <path d="M136 70c0-18 15-32 34-32s34 14 34 32v12h-68z" fill="#7357d9"/>
-          <path d="M129 77h82v11h-82z" rx="5" fill="#543db0"/>
-          <path d="M146 84c0-12 10-22 24-22s24 10 24 22v31h-48z" fill="#ffd6b0"/>
-          <path d="M149 97c5-6 12-6 17 0m9 0c5-6 12-6 17 0" fill="none" stroke="#34405a" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="159" cy="94" r="3" fill="#34405a"/><circle cx="185" cy="94" r="3" fill="#34405a"/>
-          <path d="M165 108q7 7 14 0" fill="none" stroke="#d27869" stroke-width="3" stroke-linecap="round"/>
-          <path d="M137 123c6-12 18-18 33-18s28 6 34 18v37h-67z" fill="#56bd9a"/>
-          <path d="M131 129q-20 2-25 19l21 6m83-25q17 5 22 19l-20 5" fill="none" stroke="#ffd6b0" stroke-width="12" stroke-linecap="round"/>
-          <path d="M159 156v18m28-18v18" stroke="#475673" stroke-width="10" stroke-linecap="round"/>
-          <path d="M148 175h-13m62 0h-13" stroke="#ff9c63" stroke-width="10" stroke-linecap="round"/>
-          <path d="M106 144c3-15 14-24 26-24 13 0 22 9 25 22-9 7-20 11-32 9z" fill="#f4bd70"/>
-          <circle cx="119" cy="138" r="2.5" fill="#34405a"/><circle cx="139" cy="138" r="2.5" fill="#34405a"/>
-          <path d="M122 147q7 5 13 0" fill="none" stroke="#d27869" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="m230 61 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9db1"/>
+        <svg class="hero-art" viewBox="0 0 360 210" role="img" aria-label="金髪ツインテールの魔法少女と魔法の星">
+          <path d="M43 171c26-27 47-26 68-4m176 6c18-25 40-28 60-5" fill="none" stroke="#d8c9f5" stroke-width="8" stroke-linecap="round"/>
+          <path d="m64 45 7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" fill="#ffc94c"/>
+          <path d="m298 31 5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z" fill="#8dd8bc"/>
+          <path d="M107 84C72 38 88 22 112 54c15 20 11 37 8 52m133-22c35-46 19-62-5-30-15 20-11 37-8 52" fill="#f4bd45" stroke="#d49323" stroke-width="4"/>
+          <path d="M131 81c0-30 21-51 49-51s49 21 49 51v53h-98z" fill="#ffd66f" stroke="#e9a933" stroke-width="4"/>
+          <path d="M130 82c-4-43 17-67 50-67 35 0 54 25 48 67-12-12-18-29-18-42-18 21-47 31-80 31z" fill="#ffcf55"/>
+          <path d="M151 100c7-8 16-8 23 0m15 0c7-8 16-8 23 0" fill="none" stroke="#45506b" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="162" cy="102" rx="4" ry="6" fill="#45506b"/><ellipse cx="203" cy="102" rx="4" ry="6" fill="#45506b"/>
+          <path d="M174 120q7 7 14 0" fill="none" stroke="#d27869" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="148" cy="115" r="7" fill="#ff9baa" opacity=".7"/><circle cx="218" cy="115" r="7" fill="#ff9baa" opacity=".7"/>
+          <path d="M123 156c8-23 29-34 57-34s49 11 57 34l-14 41h-86z" fill="#9b73e8" stroke="#7357d9" stroke-width="4"/>
+          <path d="m147 136 33 24 33-24-8 61h-50z" fill="#fff4ff"/>
+          <path d="m180 145 6 12 13 2-10 9 3 13-12-7-12 7 3-13-10-9 13-2z" fill="#ffcf55"/>
+          <path d="M126 158 103 184m131-26 23 26" stroke="#ffd6b0" stroke-width="13" stroke-linecap="round"/>
+          <path d="M100 184h-18m163 0h18" stroke="#ffd6b0" stroke-width="11" stroke-linecap="round"/>
+          <path d="m282 109 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9db1"/>
+          <path d="M294 155h36m-28 12h27m-37 12h30" stroke="#7f65bc" stroke-width="5" stroke-linecap="round"/>
         </svg>
-        <h1 id="start-title">3つのなぞに<br><span>ちょうせん！</span></h1>
-          <p>難易度を選んで、ひらめきにちょうせん！<br>各コース10問から、毎回ちがう3問を出題するよ。</p>
+        <h1 id="start-title">魔法の監獄からの<br><span>脱出</span></h1>
+          <p>魔法少女といっしょに、謎を解いて監獄から脱出しよう！</p>
+          <button class="primary-button story-button" id="story-start-button" type="button">📖 ストーリーモード</button>
+          <p class="mode-label">フリープレイ — 難易度を選んで3問に挑戦</p>
           <div class="difficulty-picker" aria-label="難易度を選ぶ">
             <button class="difficulty-button" data-difficulty="easy" type="button">
               🌱 やさしい
@@ -454,20 +524,43 @@
       </div>
     </section>
 
+    <section class="panel story-intro hidden" id="story-intro-screen" aria-labelledby="story-intro-title">
+      <h2 id="story-intro-title">魔法の監獄からの脱出</h2>
+      <p>金色のツインテールが目印の、12歳の魔法少女ルナ。明るくてかわいい彼女は、町のみんなを魔法で助ける人気者です。</p>
+      <p>そんなルナに嫉妬した悪い魔女が、やさしいふりをして近づきました。まんまとだまされたルナは、魔法の監獄に閉じ込められてしまいます。</p>
+      <p>監獄には、魔女がかけた強力な鍵の魔法。脱出するには、3つのステージに仕掛けられた謎をすべて解かなければなりません。ルナといっしょに、魔法の鍵を見つけ出そう！</p>
+      <button class="primary-button" id="begin-story-button" type="button">脱出にちょうせん！ →</button>
+      <button class="text-button" id="story-back-button" type="button">タイトルへ戻る</button>
+    </section>
+
     <section class="panel quiz hidden" id="quiz-screen" aria-live="polite" aria-labelledby="question-title">
-      <div class="quiz-top">
-        <span class="question-count" id="question-count">なぞ 1 / 3</span>
-        <span class="score"><span id="difficulty-label">やさしい</span> ・ <span id="score">正解 0 問</span></span>
-      </div>
-      <div class="progress" role="progressbar" aria-label="問題の進み具合" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-      <h2 class="question-title" id="question-title"></h2>
-      <div class="puzzle" id="puzzle" aria-label="なぞの絵"></div>
-      <div class="answers" id="answers"></div>
-      <p class="feedback" id="feedback" aria-live="polite"></p>
-      <div class="next-wrap hidden" id="next-wrap">
-        <button class="primary-button next-button" id="next-button" type="button">つぎのなぞへ！ →</button>
+      <svg class="quiz-story-art" viewBox="0 0 180 190" aria-hidden="true">
+        <path d="M37 75C7 35 20 22 43 52c10 14 7 30 5 40m85-17c30-40 17-53-6-23-10 14-7 30-5 40" fill="#f4bd45" stroke="#d49323" stroke-width="4"/>
+        <circle cx="90" cy="68" r="43" fill="#ffd66f" stroke="#e9a933" stroke-width="4"/>
+        <path d="M73 73q7-8 14 0m11 0q7-8 14 0" fill="none" stroke="#45506b" stroke-width="4" stroke-linecap="round"/>
+        <path d="M84 88q6 6 12 0" fill="none" stroke="#d27869" stroke-width="3" stroke-linecap="round"/>
+        <path d="M42 151c7-26 26-39 48-39s41 13 48 39l-12 34H54z" fill="#9b73e8" stroke="#7357d9" stroke-width="4"/>
+        <path d="m90 126 5 10 11 2-8 7 2 11-10-5-10 5 2-11-8-7 11-2z" fill="#ffcf55"/>
+        <path d="M52 149q18-8 38 2 20-10 38-2v29q-18-7-38 2-20-9-38-2z" fill="#fff8e9" stroke="#7357d9" stroke-width="3"/>
+        <path d="M90 151v29m-27-21 14 2m27-2-9 2" fill="none" stroke="#d45d96" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M135 120h30m-26 11h25m-31 11h28" stroke="#7f65bc" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="quiz-content">
+        <p class="story-stage-label" id="story-stage-label"></p>
+        <div class="quiz-top">
+          <span class="question-count" id="question-count">なぞ 1 / 3</span>
+          <span class="score"><span id="difficulty-label">やさしい</span> ・ <span id="score">正解 0 問</span></span>
+        </div>
+        <div class="progress" role="progressbar" aria-label="問題の進み具合" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <h2 class="question-title" id="question-title"></h2>
+        <div class="puzzle" id="puzzle" aria-label="なぞの絵"></div>
+        <div class="answers" id="answers"></div>
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+        <div class="next-wrap hidden" id="next-wrap">
+          <button class="primary-button next-button" id="next-button" type="button">つぎのなぞへ！ →</button>
+        </div>
       </div>
     </section>
 
@@ -971,6 +1064,7 @@
     ];
 
     const startScreen = document.getElementById("start-screen");
+    const storyIntroScreen = document.getElementById("story-intro-screen");
     const quizScreen = document.getElementById("quiz-screen");
     const resultScreen = document.getElementById("result-screen");
     const questionTitle = document.getElementById("question-title");
@@ -998,6 +1092,13 @@
       hard: "むずかしい",
       extreme: "激ムズ"
     };
+    const storyStages = [
+      { difficulty: "easy", name: "やさしい", setting: "監獄の見張りをだます謎" },
+      { difficulty: "hard", name: "むずかしい", setting: "魔女の魔法陣をとく謎" },
+      { difficulty: "extreme", name: "激ムズ", setting: "魔法の鍵を見つける最後の謎" }
+    ];
+    let gameMode = "free";
+    let storyStage = 0;
 
     function chooseRoundQuestions() {
       const pool = questionPools[selectedDifficulty];
@@ -1014,6 +1115,11 @@
       questionCount.textContent = `なぞ ${currentQuestion + 1} / ${roundSize}`;
       difficultyLabel.textContent = difficultyNames[selectedDifficulty];
       scoreLabel.textContent = `正解 ${score} 問`;
+      if (gameMode === "story") {
+        const stage = storyStages[storyStage];
+        document.getElementById("story-stage-label").textContent =
+          `ステージ ${storyStage + 1} / 3　${stage.name} — ${stage.setting}`;
+      }
       questionTitle.textContent = question.title;
       puzzle.innerHTML = question.illustration;
       answers.replaceChildren();
@@ -1062,6 +1168,24 @@
     function showResult() {
       quizScreen.classList.add("hidden");
       resultScreen.classList.remove("hidden");
+      if (gameMode === "story") {
+        const stageClear = score === roundSize;
+        const title = document.getElementById("result-title");
+        title.textContent = stageClear
+          ? storyStage === storyStages.length - 1 ? "ゲームクリア！" : `ステージ ${storyStage + 1} クリア！`
+          : "魔法がとけない…";
+        title.className = stageClear ? "clear" : "game-over";
+        document.getElementById("result-icon").textContent = stageClear ? "🔑" : "🔒";
+        document.getElementById("result-message").innerHTML = stageClear
+          ? storyStage === storyStages.length - 1
+            ? `ルナは魔法の鍵で監獄を脱出！<br>悪い魔女の追っ手をふりきり、自由の身になりました。<br>みんなの待つ町へ、元気に帰っていきます。`
+            : `謎をすべて解いて、魔法の結界を突破！<br>ルナは次のステージへ進みます。`
+          : `正解は ${score} 問。魔法の鍵はまだ開きません。<br>あきらめずに、もう一度このステージに挑戦しよう！`;
+        document.getElementById("restart-button").textContent = stageClear
+          ? storyStage === storyStages.length - 1 ? "タイトルへ戻る" : "次のステージへ →"
+          : "ステージに再挑戦 ↻";
+        return;
+      }
       const clear = score === roundSize;
       document.getElementById("result-icon").textContent = clear ? "🏆" : score === 0 ? "🕵️" : "💡";
       const title = document.getElementById("result-title");
@@ -1075,15 +1199,46 @@
     }
 
     function startGame(difficulty) {
+      gameMode = "free";
       selectedDifficulty = difficulty;
       currentQuestion = 0;
       score = 0;
       roundQuestions = chooseRoundQuestions();
       startScreen.classList.add("hidden");
+      storyIntroScreen.classList.add("hidden");
       resultScreen.classList.add("hidden");
+      quizScreen.classList.remove("story-mode");
       quizScreen.classList.remove("hidden");
       showQuestion();
     }
+
+    function startStoryStage() {
+      const stage = storyStages[storyStage];
+      gameMode = "story";
+      selectedDifficulty = stage.difficulty;
+      currentQuestion = 0;
+      score = 0;
+      roundQuestions = chooseRoundQuestions();
+      startScreen.classList.add("hidden");
+      storyIntroScreen.classList.add("hidden");
+      resultScreen.classList.add("hidden");
+      quizScreen.classList.add("story-mode");
+      quizScreen.classList.remove("hidden");
+      showQuestion();
+    }
+
+    document.getElementById("story-start-button").addEventListener("click", () => {
+      startScreen.classList.add("hidden");
+      storyIntroScreen.classList.remove("hidden");
+    });
+    document.getElementById("begin-story-button").addEventListener("click", () => {
+      storyStage = 0;
+      startStoryStage();
+    });
+    document.getElementById("story-back-button").addEventListener("click", () => {
+      storyIntroScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+    });
 
     document.querySelectorAll(".difficulty-button").forEach(button => {
       button.addEventListener("click", () => startGame(button.dataset.difficulty));
@@ -1099,6 +1254,18 @@
     });
 
     document.getElementById("restart-button").addEventListener("click", () => {
+      if (gameMode === "story") {
+        if (score === roundSize) {
+          if (storyStage === storyStages.length - 1) {
+            resultScreen.classList.add("hidden");
+            startScreen.classList.remove("hidden");
+            return;
+          }
+          storyStage += 1;
+        }
+        startStoryStage();
+        return;
+      }
       resultScreen.classList.add("hidden");
       startScreen.classList.remove("hidden");
     });
