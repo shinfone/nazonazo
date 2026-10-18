@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 640" fill="none">
+  <defs>
+    <linearGradient id="wand" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff0a6"/>
+      <stop offset=".48" stop-color="#ffc94c"/>
+      <stop offset="1" stop-color="#d98632"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#b39aff"/>
+      <stop offset="1" stop-color="#7357d9"/>
+    </linearGradient>
+  </defs>
+  <path d="M80 147 99 580" stroke="#171d48" stroke-width="18" stroke-linecap="round"/>
+  <path d="M80 147 99 580" stroke="url(#wand)" stroke-width="10" stroke-linecap="round"/>
+  <path d="m92 418 16 2 3 80-17 1z" fill="url(#handle)" stroke="#f8dc83" stroke-width="4"/>
+  <path d="m96 438 17 1m-16 39 17-1" stroke="#fff0a6" stroke-width="4"/>
+  <path d="m75 133 5-62 17 47 47-20-31 42 33 30-50-8-20 47-5-52-49-12z"
+    fill="url(#wand)" stroke="#fff2b8" stroke-linejoin="round" stroke-width="5"/>
+  <path d="m35 240 5 14 15 5-15 5-5 15-5-15-15-5 15-5z" fill="#fff0a6"/>
+  <path d="m125 300 4 11 12 4-12 4-4 12-4-12-12-4 12-4z" fill="#b9dfff"/>
+  <path d="m45 350 3 8 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#f7b8db"/>
+  <circle cx="126" cy="220" r="4" fill="#fff"/>
+  <circle cx="31" cy="302" r="3" fill="#fff"/>
+</svg>
