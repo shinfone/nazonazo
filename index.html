@@ -80,6 +80,72 @@
       text-align: center;
     }
 
+    .panel.title-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: safe center;
+      gap: 12px;
+      overflow-y: auto;
+      padding: clamp(16px, 4vh, 48px) clamp(16px, 5vw, 64px);
+      border: 0;
+      border-radius: 0;
+      background:
+        linear-gradient(180deg, #11193633, #1119360d 45%, #11193666),
+        url("image01_タイトル.png") center / cover no-repeat;
+      box-shadow: none;
+    }
+
+    .title-screen .hero {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: clamp(20px, 4vh, 36px);
+      border-radius: 24px;
+      background: transparent;
+      text-align: center;
+    }
+
+    .title-screen .hero-art { display: none; }
+
+    .title-screen .hero h1 {
+      color: #fff;
+      -webkit-text-stroke: 1px #111936;
+      paint-order: stroke fill;
+      text-shadow: 0 2px 8px #111936;
+    }
+
+    .title-screen .hero h1 span {
+      color: #ffdb72;
+      -webkit-text-stroke: 1px #111936;
+    }
+
+    .title-screen .hero p,
+    .title-screen .mode-label {
+      color: #fff;
+      -webkit-text-stroke: .45px #111936;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 5px #111936;
+    }
+
+    .title-screen .how-to {
+      width: fit-content;
+      max-width: 100%;
+      flex-wrap: wrap;
+      align-self: center;
+      padding: 10px 16px;
+      border-radius: 16px;
+      background: transparent;
+    }
+
+    .title-screen .how-item {
+      color: #fff;
+      -webkit-text-stroke: .4px #111936;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 4px #111936;
+    }
+
     .hero-art {
       width: min(100%, 350px);
       height: auto;
@@ -477,7 +543,7 @@
   <main class="game">
     <p class="brand"><span class="brand-mark" aria-hidden="true">✦</span> ひらめき謎解きアドベンチャー</p>
 
-    <section class="panel" id="start-screen" aria-labelledby="start-title">
+    <section class="panel title-screen" id="start-screen" aria-labelledby="start-title">
       <div class="hero">
         <svg class="hero-art" viewBox="0 0 360 210" role="img" aria-label="金髪ツインテールの魔法少女と魔法の星">
           <path d="M43 171c26-27 47-26 68-4m176 6c18-25 40-28 60-5" fill="none" stroke="#d8c9f5" stroke-width="8" stroke-linecap="round"/>
