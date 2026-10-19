@@ -196,20 +196,53 @@
       font-weight: 900;
     }
 
-    .story-intro { padding: 34px clamp(20px, 7vw, 54px); text-align: center; }
+    .panel.story-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: safe center;
+      overflow-y: auto;
+      padding: clamp(12px, 3vh, 32px) clamp(12px, 4vw, 48px);
+      border: 0;
+      border-radius: 0;
+      background:
+        linear-gradient(#17122d66, #17122d66),
+        url("image02_エピソード1.png") center / contain no-repeat,
+        #17122d;
+      box-shadow: none;
+    }
+
+    .story-intro-content {
+      width: min(100%, 760px);
+      max-height: 100%;
+      overflow-y: auto;
+      padding: clamp(18px, 3.5vh, 32px) clamp(20px, 5vw, 48px);
+      border: 0;
+      border-radius: 24px;
+      background: transparent;
+      text-align: center;
+    }
 
     .story-intro h2 {
       margin: 0 0 18px;
-      color: #bd4b83;
+      color: #fff;
       font-size: clamp(25px, 6vw, 34px);
+      -webkit-text-stroke: 1.5px #342454;
+      paint-order: stroke fill;
+      text-shadow: 0 2px 5px #17122dcc;
     }
 
     .story-intro p {
-      color: #56637c;
-      font-size: 16px;
+      color: #fff;
+      font-size: clamp(14px, 1.8vh, 16px);
       font-weight: 700;
-      line-height: 2;
+      line-height: 1.8;
       text-align: left;
+      -webkit-text-stroke: .8px #342454;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 4px #17122de6;
     }
 
     .story-intro .primary-button { margin-top: 6px; }
@@ -618,12 +651,14 @@
     </section>
 
     <section class="panel story-intro hidden" id="story-intro-screen" aria-labelledby="story-intro-title">
-      <h2 id="story-intro-title">魔法の監獄からの脱出</h2>
-      <p>金色のツインテールが目印の、12歳の魔法少女ルナ。明るくてかわいい彼女は、町のみんなを魔法で助ける人気者です。</p>
-      <p>そんなルナに嫉妬した悪い魔女が、やさしいふりをして近づきました。まんまとだまされたルナは、魔法の監獄に閉じ込められてしまいます。</p>
-      <p>監獄には、魔女がかけた強力な鍵の魔法。脱出するには、3つのステージに仕掛けられた謎をすべて解かなければなりません。ルナといっしょに、魔法の鍵を見つけ出そう！</p>
-      <button class="primary-button" id="begin-story-button" type="button">脱出にちょうせん！ →</button>
-      <button class="text-button" id="story-back-button" type="button">タイトルへ戻る</button>
+      <div class="story-intro-content">
+        <h2 id="story-intro-title">魔法の監獄からの脱出</h2>
+        <p>金色のツインテールが目印の、12歳の魔法少女ルナ。明るくてかわいい彼女は、町のみんなを魔法で助ける人気者です。</p>
+        <p>そんなルナに嫉妬した悪い魔女が、やさしいふりをして近づきました。まんまとだまされたルナは、魔法の監獄に閉じ込められてしまいます。</p>
+        <p>監獄には、魔女がかけた強力な鍵の魔法。脱出するには、3つのステージに仕掛けられた謎をすべて解かなければなりません。ルナといっしょに、魔法の鍵を見つけ出そう！</p>
+        <button class="primary-button" id="begin-story-button" type="button">脱出にちょうせん！ →</button>
+        <button class="text-button" id="story-back-button" type="button">タイトルへ戻る</button>
+      </div>
     </section>
 
     <section class="panel quiz hidden" id="quiz-screen" aria-live="polite" aria-labelledby="question-title">
