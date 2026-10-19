@@ -614,7 +614,31 @@
         #17122d;
     }
 
-    .story-failed .result-content {
+    .result.story-cleared {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      padding: clamp(16px, 4vh, 40px) 20px;
+      border: 0;
+      border-radius: 0;
+      background:
+        linear-gradient(#17122d88, #17122d88),
+        url("image40_謎解き成功.png") center / cover no-repeat,
+        #17122d;
+    }
+
+    .result.story-game-cleared {
+      background-image:
+        linear-gradient(#17122d88, #17122d88),
+        url("image50_ゲームクリア.png");
+    }
+
+    .story-failed .result-content,
+    .story-cleared .result-content {
       width: min(100%, 640px);
       margin: auto;
       padding: clamp(28px, 6vw, 48px);
@@ -624,9 +648,12 @@
       box-shadow: none;
     }
 
-    .story-failed .result-icon { background: #ffffff24; }
+    .story-failed .result-icon,
+    .story-cleared .result-icon { background: #ffffff24; }
     .result.story-failed h2.game-over,
-    .result.story-failed p { color: #fff; }
+    .result.story-failed p,
+    .result.story-cleared h2.clear,
+    .result.story-cleared p { color: #fff; }
 
     .result-icon {
       display: grid;
@@ -1399,6 +1426,11 @@
       if (gameMode === "story") {
         const stageClear = score === roundSize;
         resultScreen.classList.toggle("story-failed", !stageClear);
+        resultScreen.classList.toggle("story-cleared", stageClear);
+        resultScreen.classList.toggle(
+          "story-game-cleared",
+          stageClear && storyStage === storyStages.length - 1
+        );
         const title = document.getElementById("result-title");
         title.textContent = stageClear
           ? storyStage === storyStages.length - 1 ? "ゲームクリア！" : `ステージ ${storyStage + 1} クリア！`
@@ -1416,6 +1448,8 @@
         return;
       }
       resultScreen.classList.remove("story-failed");
+      resultScreen.classList.remove("story-cleared");
+      resultScreen.classList.remove("story-game-cleared");
       const clear = score === roundSize;
       document.getElementById("result-icon").textContent = clear ? "🏆" : score === 0 ? "🕵️" : "💡";
       const title = document.getElementById("result-title");
