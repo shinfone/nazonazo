@@ -411,7 +411,7 @@
       border-radius: 0;
       background:
         linear-gradient(#17122d66, #17122d66),
-        url("image10_謎解き中.png") center / cover no-repeat,
+        var(--story-background-image, url("image10_謎解き中.png")) center / cover no-repeat,
         #17122d;
       box-shadow: none;
     }
@@ -1277,8 +1277,23 @@
       { difficulty: "hard", name: "むずかしい", setting: "魔女の魔法陣をとく謎" },
       { difficulty: "extreme", name: "激ムズ", setting: "魔法の鍵を見つける最後の謎" }
     ];
+    const storyBackgrounds = [
+      "image10_謎解き中.png",
+      "image11_謎解き中.png",
+      "image12_謎解き中.png",
+      "image15_謎解き中.png",
+      "image16_謎解き中.png"
+    ];
     let gameMode = "free";
     let storyStage = 0;
+    let previousStoryBackground = "";
+
+    function setStoryBackground() {
+      const availableBackgrounds = storyBackgrounds.filter(image => image !== previousStoryBackground);
+      const image = availableBackgrounds[Math.floor(Math.random() * availableBackgrounds.length)];
+      quizScreen.style.setProperty("--story-background-image", `url("${image}")`);
+      previousStoryBackground = image;
+    }
 
     function chooseRoundQuestions() {
       const pool = questionPools[selectedDifficulty];
@@ -1398,6 +1413,7 @@
       selectedDifficulty = stage.difficulty;
       currentQuestion = 0;
       score = 0;
+      setStoryBackground();
       roundQuestions = chooseRoundQuestions();
       startScreen.classList.add("hidden");
       storyIntroScreen.classList.add("hidden");
