@@ -597,6 +597,37 @@
 
     .result { padding: 42px 26px 38px; text-align: center; }
 
+    .result.story-failed {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      padding: clamp(16px, 4vh, 40px) 20px;
+      border: 0;
+      border-radius: 0;
+      background:
+        linear-gradient(#17122d88, #17122d88),
+        url("image30_脱出失敗.png") center / cover no-repeat,
+        #17122d;
+    }
+
+    .story-failed .result-content {
+      width: min(100%, 640px);
+      margin: auto;
+      padding: clamp(28px, 6vw, 48px);
+      border: 0;
+      border-radius: 28px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .story-failed .result-icon { background: #ffffff24; }
+    .result.story-failed h2.game-over,
+    .result.story-failed p { color: #fff; }
+
     .result-icon {
       display: grid;
       width: 96px;
@@ -745,10 +776,12 @@
     </section>
 
     <section class="panel result hidden" id="result-screen" aria-live="polite" aria-labelledby="result-title">
-      <div class="result-icon" id="result-icon" aria-hidden="true"></div>
-      <h2 id="result-title"></h2>
-      <p id="result-message"></p>
-      <button class="primary-button" id="restart-button" type="button">もう一度あそぶ ↻</button>
+      <div class="result-content">
+        <div class="result-icon" id="result-icon" aria-hidden="true"></div>
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <button class="primary-button" id="restart-button" type="button">もう一度あそぶ ↻</button>
+      </div>
     </section>
   </main>
 
@@ -1365,6 +1398,7 @@
       resultScreen.classList.remove("hidden");
       if (gameMode === "story") {
         const stageClear = score === roundSize;
+        resultScreen.classList.toggle("story-failed", !stageClear);
         const title = document.getElementById("result-title");
         title.textContent = stageClear
           ? storyStage === storyStages.length - 1 ? "ゲームクリア！" : `ステージ ${storyStage + 1} クリア！`
@@ -1381,6 +1415,7 @@
           : "ステージに再挑戦 ↻";
         return;
       }
+      resultScreen.classList.remove("story-failed");
       const clear = score === roundSize;
       document.getElementById("result-icon").textContent = clear ? "🏆" : score === 0 ? "🕵️" : "💡";
       const title = document.getElementById("result-title");
