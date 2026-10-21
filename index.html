@@ -208,7 +208,7 @@
       border: 0;
       border-radius: 0;
       background:
-        url("image02_エピソード1.png") center / contain no-repeat,
+        var(--story-intro-background-image, url("image02_エピソード1.png")) center / contain no-repeat,
         #17122d;
       box-shadow: none;
     }
@@ -613,7 +613,7 @@
       border: 0;
       border-radius: 0;
       background:
-        url("image30_脱出失敗.png") center / cover no-repeat,
+        var(--story-failed-background-image, url("image30_脱出失敗.png")) center / cover no-repeat,
         #17122d;
     }
 
@@ -629,13 +629,31 @@
       border: 0;
       border-radius: 0;
       background:
-        url("image40_謎解き成功.png") center / cover no-repeat,
+        var(--story-cleared-background-image, url("image40_謎解き成功.png")) center / cover no-repeat,
         #17122d;
     }
 
     .result.story-game-cleared {
       background-image:
-        url("image50_ゲームクリア.png");
+        var(--story-game-cleared-background-image, url("image50_ゲームクリア.png"));
+    }
+
+    @media (orientation: portrait) {
+      .panel.story-intro {
+        --story-intro-background-image: url("image02_エピソード1_スマホ.png");
+      }
+
+      .result.story-failed {
+        --story-failed-background-image: url("image30_脱出失敗_スマホ.png");
+      }
+
+      .result.story-cleared {
+        --story-cleared-background-image: url("image40_謎解き成功_スマホ.png");
+      }
+
+      .result.story-game-cleared {
+        --story-game-cleared-background-image: url("image50_ゲームクリア_スマホ.png");
+      }
     }
 
     .story-failed .result-content,
@@ -1357,16 +1375,26 @@
       "image15_謎解き中.png",
       "image16_謎解き中.png"
     ];
+    const portraitViewport = window.matchMedia("(orientation: portrait)");
     let gameMode = "free";
     let storyStage = 0;
     let previousStoryBackground = "";
 
+    function updateStoryBackground() {
+      if (!previousStoryBackground) return;
+      const image = portraitViewport.matches
+        ? previousStoryBackground.replace(".png", "_スマホ.png")
+        : previousStoryBackground;
+      quizScreen.style.setProperty("--story-background-image", `url("${image}")`);
+    }
+
     function setStoryBackground() {
       const availableBackgrounds = storyBackgrounds.filter(image => image !== previousStoryBackground);
-      const image = availableBackgrounds[Math.floor(Math.random() * availableBackgrounds.length)];
-      quizScreen.style.setProperty("--story-background-image", `url("${image}")`);
-      previousStoryBackground = image;
+      previousStoryBackground = availableBackgrounds[Math.floor(Math.random() * availableBackgrounds.length)];
+      updateStoryBackground();
     }
+
+    portraitViewport.addEventListener("change", updateStoryBackground);
 
     function chooseRoundQuestions() {
       const pool = questionPools[selectedDifficulty];
