@@ -93,7 +93,7 @@
       border: 0;
       border-radius: 0;
       background:
-        url("image01_タイトル.png") center / contain no-repeat,
+        var(--title-screen-background-image, url("image03_エピソード2.png")) center / cover no-repeat,
         radial-gradient(ellipse at center, #26366e, #111936 76%);
       box-shadow: none;
     }
@@ -639,6 +639,10 @@
     }
 
     @media (orientation: portrait) {
+      .panel.title-screen {
+        --title-screen-background-image: url("image03_エピソード2_スマホ.png");
+      }
+
       .panel.story-intro {
         --story-intro-background-image: url("image02_エピソード1_スマホ.png");
       }
