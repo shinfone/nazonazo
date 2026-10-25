@@ -322,13 +322,20 @@
       margin: 0 auto;
     }
 
-    .difficulty-button {
+    .difficulty-option {
       display: flex;
       min-width: 190px;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding: 14px 20px;
+      gap: 7px;
+    }
+
+    .difficulty-button {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 16px;
       border: 2px solid #ded7f4;
       border-radius: 18px;
       background: #fff;
@@ -340,16 +347,20 @@
       transition: transform .15s, border-color .15s, background .15s;
     }
 
+    .difficulty-description {
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.4;
+      -webkit-text-stroke: 1px #111936;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 4px #111936;
+    }
+
     .difficulty-button:hover {
       transform: translateY(-2px);
       border-color: #a696ed;
       background: #faf8ff;
-    }
-
-    .difficulty-button small {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
     }
 
     .difficulty-button.hard {
@@ -774,18 +785,18 @@
           <button class="primary-button story-button" id="story-start-button" type="button">📖 ストーリーモード</button>
           <p class="mode-label">フリープレイ — 難易度を選んで3問に挑戦</p>
           <div class="difficulty-picker" aria-label="難易度を選ぶ">
-            <button class="difficulty-button" data-difficulty="easy" type="button">
-              🌱 やさしい
-              <small>ひらめきの基本 10問</small>
-            </button>
-            <button class="difficulty-button hard" data-difficulty="hard" type="button">
-              🔥 むずかしい
-              <small>じっくり考える 10問</small>
-            </button>
-            <button class="difficulty-button extreme" data-difficulty="extreme" type="button">
-              💎 激ムズ
-              <small>手がかりを組み合わせる 10問</small>
-            </button>
+            <div class="difficulty-option">
+              <button class="difficulty-button" data-difficulty="easy" type="button">🌱 やさしい</button>
+              <small class="difficulty-description">ひらめきの基本 10問</small>
+            </div>
+            <div class="difficulty-option">
+              <button class="difficulty-button hard" data-difficulty="hard" type="button">🔥 むずかしい</button>
+              <small class="difficulty-description">じっくり考える 10問</small>
+            </div>
+            <div class="difficulty-option">
+              <button class="difficulty-button extreme" data-difficulty="extreme" type="button">💎 激ムズ</button>
+              <small class="difficulty-description">手がかりを組み合わせる 10問</small>
+            </div>
           </div>
       </div>
       <div class="how-to" aria-label="ゲームのあそびかた">
