@@ -121,6 +121,50 @@
       transform: translateY(-50%) rotate(12deg);
     }
 
+    .magic-orbs {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .magic-orb {
+      position: absolute;
+      width: var(--orb-size);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      opacity: .68;
+      animation: orb-float var(--orb-duration) ease-in-out var(--orb-delay) infinite alternate;
+      will-change: transform;
+    }
+
+    .magic-orb:nth-child(3n + 1) {
+      background: radial-gradient(circle at 35% 30%, #fff 0 8%, #c8f4ff 25%, #81cfff 62%, #81cfff00 76%);
+      box-shadow: 0 0 18px 4px #91dfff70;
+    }
+
+    .magic-orb:nth-child(3n + 2) {
+      background: radial-gradient(circle at 35% 30%, #fff 0 8%, #f2dbff 25%, #c59aff 62%, #c59aff00 76%);
+      box-shadow: 0 0 18px 4px #c59aff70;
+    }
+
+    .magic-orb:nth-child(3n) {
+      background: radial-gradient(circle at 35% 30%, #fff 0 8%, #fff1bd 25%, #ffd575 62%, #ffd57500 76%);
+      box-shadow: 0 0 18px 4px #ffd57570;
+    }
+
+    @keyframes orb-float {
+      from {
+        transform: translate3d(0, 12px, 0) scale(.82);
+        opacity: .4;
+      }
+      to {
+        transform: translate3d(var(--orb-drift-x), var(--orb-drift-y), 0) scale(1.12);
+        opacity: .82;
+      }
+    }
+
     .title-screen .hero {
       position: relative;
       z-index: 1;
@@ -763,6 +807,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .magic-orb { animation: none; }
     }
   </style>
 </head>
@@ -771,6 +816,7 @@
     <p class="brand"><span class="brand-mark" aria-hidden="true">✦</span> ひらめき謎解きアドベンチャー</p>
 
     <section class="panel title-screen" id="start-screen" aria-labelledby="start-title">
+      <div class="magic-orbs" id="magic-orbs" aria-hidden="true"></div>
       <div class="hero">
         <svg class="hero-art" viewBox="0 0 360 210" role="img" aria-label="金髪ツインテールの魔法少女と魔法の星">
           <path d="M43 171c26-27 47-26 68-4m176 6c18-25 40-28 60-5" fill="none" stroke="#d8c9f5" stroke-width="8" stroke-linecap="round"/>
@@ -1361,6 +1407,19 @@
     ];
 
     const startScreen = document.getElementById("start-screen");
+    const magicOrbs = document.getElementById("magic-orbs");
+    for (let i = 0; i < 22; i += 1) {
+      const orb = document.createElement("span");
+      orb.className = "magic-orb";
+      orb.style.left = `${Math.random() * 96 + 2}%`;
+      orb.style.top = `${Math.random() * 96 + 2}%`;
+      orb.style.setProperty("--orb-size", `${Math.random() * 20 + 9}px`);
+      orb.style.setProperty("--orb-drift-x", `${Math.random() * 56 - 28}px`);
+      orb.style.setProperty("--orb-drift-y", `${Math.random() * 52 - 46}px`);
+      orb.style.setProperty("--orb-duration", `${Math.random() * 8 + 8}s`);
+      orb.style.setProperty("--orb-delay", `${Math.random() * -16}s`);
+      magicOrbs.append(orb);
+    }
     const storyIntroScreen = document.getElementById("story-intro-screen");
     const quizScreen = document.getElementById("quiz-screen");
     const resultScreen = document.getElementById("result-screen");
