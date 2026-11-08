@@ -788,6 +788,15 @@
 
     .hidden { display: none !important; }
 
+    .screen-enter-item {
+      animation: screen-enter .42s cubic-bezier(.2, .75, .3, 1) var(--screen-enter-delay, 0ms) both;
+    }
+
+    @keyframes screen-enter {
+      from { opacity: 0; transform: translateY(10px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     @media (max-width: 480px) {
       body { padding: 18px 12px 28px; }
       .panel { border-radius: 23px; }
@@ -810,6 +819,7 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
       .magic-orb { animation: none; }
+      .screen-enter-item { animation: none !important; }
     }
   </style>
 </head>
@@ -1435,6 +1445,7 @@
     const progress = document.querySelector(".progress");
     const progressFill = document.getElementById("progress-fill");
     const difficultyLabel = document.getElementById("difficulty-label");
+    const screenAnimationRuns = new WeakMap();
     const roundSize = 3;
     let currentQuestion = 0;
     let score = 0;
@@ -1466,6 +1477,55 @@
     let gameMode = "free";
     let storyStage = 0;
     let previousStoryBackground = "";
+
+    function animateElements(elements) {
+      const targets = elements
+        .filter(element => element?.isConnected && element.getBoundingClientRect().width > 0)
+        .sort((left, right) => {
+          const leftRect = left.getBoundingClientRect();
+          const rightRect = right.getBoundingClientRect();
+          return leftRect.top - rightRect.top || leftRect.left - rightRect.left;
+        });
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      targets.forEach(element => {
+        element.classList.remove("screen-enter-item");
+        element.style.removeProperty("--screen-enter-delay");
+      });
+      if (targets.length) targets[0].getBoundingClientRect();
+
+      targets.forEach((element, index) => {
+        const run = (screenAnimationRuns.get(element) || 0) + 1;
+        screenAnimationRuns.set(element, run);
+        element.style.setProperty("--screen-enter-delay", `${index * 70}ms`);
+        element.classList.add("screen-enter-item");
+        element.addEventListener("animationend", () => {
+          if (screenAnimationRuns.get(element) !== run) return;
+          element.classList.remove("screen-enter-item");
+          element.style.removeProperty("--screen-enter-delay");
+        }, { once: true });
+      });
+    }
+
+    function animateScreen(screen) {
+      const elements = [...screen.querySelectorAll("*")];
+      const targets = elements.filter(element => {
+        const hasDirectText = [...element.childNodes].some(node =>
+          node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+        );
+        if (hasDirectText || element.matches(".progress") || element.tagName.toLowerCase() === "svg") {
+          for (let ancestor = element.parentElement; ancestor && ancestor !== screen; ancestor = ancestor.parentElement) {
+            if (ancestor.tagName.toLowerCase() === "svg") return false;
+            if ([...ancestor.childNodes].some(node =>
+              node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+            )) return false;
+          }
+          return true;
+        }
+        return false;
+      });
+      animateElements(targets);
+    }
 
     function updateStoryBackground() {
       if (!previousStoryBackground) return;
@@ -1520,6 +1580,7 @@
         button.addEventListener("click", () => chooseAnswer(index));
         answers.append(button);
       });
+      animateScreen(quizScreen);
     }
 
     function chooseAnswer(selected) {
@@ -1546,6 +1607,7 @@
       nextWrap.classList.remove("hidden");
       document.getElementById("next-button").textContent =
         currentQuestion === roundSize - 1 ? "けっかを見る！ →" : "つぎのなぞへ！ →";
+      animateElements([feedback, nextWrap]);
     }
 
     function showResult() {
@@ -1573,6 +1635,7 @@
         document.getElementById("restart-button").textContent = stageClear
           ? storyStage === storyStages.length - 1 ? "タイトルへ戻る" : "次のステージへ →"
           : "ステージに再挑戦 ↻";
+        animateScreen(resultScreen);
         return;
       }
       resultScreen.classList.remove("story-failed");
@@ -1588,6 +1651,7 @@
         : score === 0
           ? `正解は ${score} 問。<br>こんどは絵をよーく見て、もう一度ちょうせん！`
           : `正解は ${score} 問。おしい！<br>あと少しで全問正解だったよ。もう一度ちょうせん！`;
+      animateScreen(resultScreen);
     }
 
     function startGame(difficulty) {
@@ -1623,6 +1687,7 @@
     document.getElementById("story-start-button").addEventListener("click", () => {
       startScreen.classList.add("hidden");
       storyIntroScreen.classList.remove("hidden");
+      animateScreen(storyIntroScreen);
     });
     document.getElementById("begin-story-button").addEventListener("click", () => {
       storyStage = 0;
@@ -1631,6 +1696,7 @@
     document.getElementById("story-back-button").addEventListener("click", () => {
       storyIntroScreen.classList.add("hidden");
       startScreen.classList.remove("hidden");
+      animateScreen(startScreen);
     });
 
     document.querySelectorAll(".difficulty-button").forEach(button => {
@@ -1652,6 +1718,7 @@
           if (storyStage === storyStages.length - 1) {
             resultScreen.classList.add("hidden");
             startScreen.classList.remove("hidden");
+            animateScreen(startScreen);
             return;
           }
           storyStage += 1;
@@ -1661,7 +1728,10 @@
       }
       resultScreen.classList.add("hidden");
       startScreen.classList.remove("hidden");
+      animateScreen(startScreen);
     });
+
+    animateScreen(startScreen);
   </script>
 </body>
 </html>
