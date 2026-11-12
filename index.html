@@ -789,7 +789,7 @@
     .hidden { display: none !important; }
 
     .screen-enter-item {
-      animation: screen-enter .42s cubic-bezier(.2, .75, .3, 1) var(--screen-enter-delay, 0ms) both;
+      animation: screen-enter .7s cubic-bezier(.2, .75, .3, 1) var(--screen-enter-delay, 0ms) both;
     }
 
     @keyframes screen-enter {
@@ -1497,7 +1497,7 @@
       targets.forEach((element, index) => {
         const run = (screenAnimationRuns.get(element) || 0) + 1;
         screenAnimationRuns.set(element, run);
-        element.style.setProperty("--screen-enter-delay", `${index * 70}ms`);
+        element.style.setProperty("--screen-enter-delay", `${index * 120}ms`);
         element.classList.add("screen-enter-item");
         element.addEventListener("animationend", () => {
           if (screenAnimationRuns.get(element) !== run) return;
